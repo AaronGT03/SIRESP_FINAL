@@ -156,6 +156,52 @@ public class UserController {
                 HttpStatus.OK
         );
     }
+    @PostMapping("/actualizar/code")
+    public  ResponseEntity<Response<Boolean>> updateCode(HttpServletRequest request)  {
+
+        JSONObject jsonObject2 = (JSONObject) request.getAttribute(json_data_attribute);
+        Long id = Long.valueOf(jsonObject2.getString("id"));
+        String code = jsonObject2.getString("code");
+
+
+        return new ResponseEntity<>(
+                this.service.updateVerificationCode(id,code),
+                HttpStatus.OK
+        );
+
+    }
+    @PostMapping("/actualizar/password")
+    public  ResponseEntity<Response<Boolean>> updatePassword(HttpServletRequest request)  {
+
+        JSONObject jsonObject2 = (JSONObject) request.getAttribute(json_data_attribute);
+        Long id = Long.valueOf(jsonObject2.getString("id"));
+        String password = jsonObject2.getString("password");
+
+
+        String passwordBCrypt = passwordEncoder.encode(password);
+
+
+
+
+        return new ResponseEntity<>(
+                this.service.updatePassword(id,passwordBCrypt),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<String> getByEmail(@PathVariable String email) throws Exception {
+        Response<Optional<User>> usersResponse = this.service.getByUsernameByEmail(email);
+        System.out.println(usersResponse);
+        Optional<User> optionalUser = usersResponse.getData();
+        User user = optionalUser.orElse(null);
+
+        String json = objectMapper.writeValueAsString(user);
+
+        String dataEncrypted = Encrypt.encrypt(json);
+        return new ResponseEntity<>(
+                dataEncrypted,
+                HttpStatus.OK);
+    }
 
 
 }

@@ -1,6 +1,8 @@
 <template>
   <b-container fluid>
-    <CategoriesNavbar @ejecutar-funcion="activarEvento"/>
+    <transition name="fade">
+      <CategoriesNavbar v-if="isVisible" @ejecutar-funcion="activarEvento"/>
+    </transition>
     <Navbar />
     <div class="main-content">
       <BusquedaAlojamientos ref="busqueda" />
@@ -20,11 +22,27 @@ export default {
     CategoriesNavbar,
     BusquedaAlojamientos
   },
+  data() {
+    return {
+      isVisible: true
+    }
+  },
   methods:{
     activarEvento(evento) {
-      // Llamamos a la función del componente BusquedadeAlojamiento utilizando una referencia
       this.$refs.busqueda.filterCategory(evento);
+    },
+    handleScroll() {
+      // Actualiza la visibilidad basado en la posición del scroll
+      this.isVisible = window.scrollY < 50;
     }
+  },
+  mounted() {
+    // Agregamos el listener cuando el componente es montado
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    // Limpiamos el listener cuando el componente va a ser destruido
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
 }
@@ -32,6 +50,13 @@ export default {
 </script>
 
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;

@@ -22,11 +22,20 @@
 
 
       </div>
+      
       <div class="col-md-9">
+        <div class="row">
+          <div class="col-md-12" style="text-align: center;">
+            <b-spinner v-if="showSpinner" variant="info" style="width: 70px; height: 70px;"></b-spinner>
+          </div>
+        </div>
         <div class="row mt-4">
 
+          
           <div class="col-md-4 col-sm-6 mb-4" v-for="(accommodation, index) in accommodations" :key="index">
+            
             <div class="card h-100 airbnb-card">
+              
               <div class="card-img-top airbnb-card-img-top"
                 :style="{ backgroundImage: `url(${JSON.parse(accommodation.images)[0]})` }">
               </div>
@@ -52,7 +61,7 @@
       
 
     </div>
-    <b-spinner v-if="showSpinner" label="Cargando..."></b-spinner>
+    
   </b-container>
   
 
@@ -76,7 +85,7 @@ export default {
     }
   },
   mounted() {
-    this.getUsers();
+    this.spinner();
     
 
   },
@@ -98,7 +107,6 @@ export default {
     },
     async getHosts(user) {
       try {
-        this.spinner();
         const response = await instance.doGet(`/host/user/${user.id}`);
         console.log("Hosts: ");
         console.log(response.data.data);
@@ -143,7 +151,9 @@ export default {
       this.showSpinner = true;
       setTimeout(() => {
         this.showSpinner = false;
-      }, 2000);
+        this.getUsers();
+      }, 1500);
+      
     },
     
   }

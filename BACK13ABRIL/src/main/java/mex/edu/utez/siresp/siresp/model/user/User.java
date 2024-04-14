@@ -40,6 +40,7 @@ public class User {
     private String username;
     private String password;
     private String status;
+    private String verificationCode;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -69,6 +70,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", status='" + status + '\'' +
+                ", verificationCode='" + verificationCode + '\'' +
                 '}';
     }
 

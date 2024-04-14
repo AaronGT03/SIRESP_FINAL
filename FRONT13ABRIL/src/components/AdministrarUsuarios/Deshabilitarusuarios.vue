@@ -34,16 +34,17 @@
               </div>
               <div class="col-md-2 text-center">
                 <h5>Status</h5>
-                <b-badge variant="success">{{ user.status }}</b-badge>
+                <b-badge :variant="user.status === 'Activo' ? 'success' : 'danger'">{{ user.status }}</b-badge>
+
               </div>
               <div class="col-md-2 text-center">
                 <h5>Acciones</h5>
                 <b-button
                   @click="toggleUserStatus(user)"
-                  :variant="user.status === 'Habilitado' ? 'danger' : 'success'"
+                  :variant="user.status === 'Activo' ? 'danger' : 'success'"
                 >
                   {{
-                    userstatus === "Habilitado" ? "Deshabilitar" : "Habilitar"
+                    user.status === "Activo" ? "Deshabilitado" : "Activar"
                   }}
                 </b-button>
               </div>
@@ -67,7 +68,7 @@ export default {
   methods: {
     async toggleUserStatus(user) {
       const newStatus =
-        user.status === "Habilitado" ? "Deshabilitado" : "Habilitado";
+        user.status === "Activo" ? "Deshabilitado" : "Activo";
       try {
         const response = await instance.doPost("/user/actualizar/status", {
           id: `${user.id}`,

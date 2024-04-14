@@ -1,6 +1,5 @@
 <template>
     <b-container fluid>
-      <CategoriesNavbar />
       <NavbarUser />
       <div class="main-content">
         <AlojamientoAnfi />

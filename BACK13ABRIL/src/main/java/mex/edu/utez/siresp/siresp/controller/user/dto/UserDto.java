@@ -30,6 +30,7 @@ public class UserDto {
     private String username;
     private  String password;
     private  String status;
+    private String verificationCode;
     private List<ActivityHistory>  history;
     private List<Booking> bookings;
     private  List<Review> reviews;
@@ -49,6 +50,7 @@ public class UserDto {
                 getUsername(),
                 getPassword(),
                 getStatus(),
+                getVerificationCode(),
                 null,
                 null,
                 null

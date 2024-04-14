@@ -15,6 +15,7 @@ public class CustomHandlerInterceptor implements HandlerInterceptor {
 
         if(request.getRequestURL().toString().equals("http://localhost:8080/api-sirep/user/upload")
                 ||request.getRequestURL().toString().equals("http://localhost:8080/api-sirep/host/upload")
+                ||request.getRequestURL().toString().equals("http://localhost:8080/api-sirep/email/")
                 ||request.getRequestURL().toString().equals("http://localhost:8080/api-sirep/accommodation/upload")){
 
 

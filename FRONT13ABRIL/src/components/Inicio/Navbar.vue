@@ -103,13 +103,79 @@
 
         <!-- Botón Enviar -->
         <div class="text-center">
-          <b-button style="margin-top: 5%" type="submit" variant="primary" @click="spinner">
-            <b-spinner v-if="showSpinner" variant="info" style="width: 1.5rem; height: 1.5rem"></b-spinner>
-            <span v-else>Enviar</span>
-          </b-button>
-
+          <b-button style="margin-top: 5%" type="submit" variant="primary">Enviar</b-button>
         </div>
       </b-form>
+    </b-modal>
+    <b-modal v-model="showLoginModal3" title="Recuperacón de Contraseña" hide-footer size="md"
+      header-bg-variant="primary" header-text-variant="light">
+
+      <b-form @submit.prevent="passwordrecovery" class="modal-form">
+        <b-row>
+          <b-col cols="12">
+            <b-form-group label="Escribe tu correo, para que te llegue el código de verificacion">
+              <b-form-input v-validate="'required'" name="loginEmail" v-model="emailSearch" type="email"
+                placeholder="Ingrese tu direccion de correo" />
+              <span class="text-danger">{{ errors.first("loginEmail") }}</span>
+              <div class="text-center">
+                <b-button type="submit" variant="primary">Enviar Código</b-button>
+              </div>
+
+            </b-form-group>
+
+          </b-col>
+        </b-row>
+      </b-form>
+
+    </b-modal>
+    <b-modal v-model="showLoginModal4" title="Verificacion de Código" hide-footer size="md" header-bg-variant="primary"
+      header-text-variant="light">
+
+      <b-form @submit.prevent="changePassword" class="modal-form">
+        <b-row>
+          <b-col cols="12">
+            <b-form-group label="Verificacion">
+              <b-form-input v-validate="'required'" name="code" v-model="codeSend" type="text"
+                placeholder="Ingrese el codigo que se le envio  para verificar su contrasena" />
+              <span class="text-danger">{{ errors.first("code") }}</span>
+              <div class="text-center">
+                <b-button type="submit" variant="primary">Verificar Código</b-button>
+              </div>
+
+            </b-form-group>
+
+          </b-col>
+        </b-row>
+      </b-form>
+
+    </b-modal>
+    <b-modal v-model="showLoginModal5" title="Cambio de contraseñas" hide-footer size="md" header-bg-variant="primary"
+      header-text-variant="light">
+
+      <b-form @submit.prevent="updatePassword" class="modal-form">
+        <b-row>
+          <b-col cols="12">
+            <b-form-group>
+              <label>Registre su nueva Contraseña</label>
+              <b-form-input v-validate="'required|min:8'" name="paasoword1" v-model="password1" type="password"
+                placeholder="Ingrese Su nueva Contraseña" />
+              <span class="text-danger">{{ errors.first("paasoword1") }}</span>
+              <br>
+              <label>Repita se Contraseña</label>
+              <div class="text-center">
+                <b-form-input v-validate="'required|min:8'" name="paasoword2" v-model="password2" type="password"
+                  placeholder="Ingrese Nuevamente su Contraseña" />
+                <span class="text-danger">{{ errors.first("paasoword2") }}</span>
+
+                <b-button type="submit" variant="primary">Actualizar Conatrseñas</b-button>
+              </div>
+
+            </b-form-group>
+
+          </b-col>
+        </b-row>
+      </b-form>
+
     </b-modal>
 
     <b-modal v-model="showLoginModal" title="Inicio de Sesión" hide-footer size="md" header-bg-variant="primary"
@@ -121,6 +187,7 @@
               <b-form-input v-validate="'required'" name="loginEmail" v-model="loginEmail" type="text"
                 placeholder="Ingrese su username" />
               <span class="text-danger">{{ errors.first("loginEmail") }}</span>
+
             </b-form-group>
           </b-col>
         </b-row>
@@ -136,6 +203,14 @@
             </b-form-group>
           </b-col>
         </b-row>
+        <div class="text-center">
+          <b-link @click="
+            showLoginModal3 = true;
+          showModal = false;
+          showLoginModal = false
+            " variant="link">
+            Olvide Micontraseña</b-link>
+        </div>
 
         <div class="text-center">
           <b-button type="submit" variant="primary">Iniciar Sesión</b-button>
@@ -153,6 +228,9 @@
       </div>
     </b-modal>
 
+    <div class="d-flex justify-content-center align-items-center">
+      <b-spinner v-if="showSpinner" variant="info" style="width: 8rem; height: 8rem; margin-top: 15%"></b-spinner>
+    </div>
 
     <nav class="navbar">
       <div class="container">
@@ -314,11 +392,18 @@ export default {
   },
   data() {
     return {
+      infoUser: "",
+      password2: "",
+      password1: "",
       isDropdownOpen: false,
       showModal: false,
       showLoginModal: false,
       showLoginModal2: false,
+      showLoginModal3: false,
+      showLoginModal4: false,
+      showLoginModal5: false,
       showSpinner: false,
+      codeSend: "",
       user: {
         names: "",
         lastName: "",
@@ -333,6 +418,7 @@ export default {
         password: "",
         status: "Activo",
       },
+      emailSearch: "",
       isMobile: window.innerWidth <= 768,
       loginEmail: "",
       loginPassword: "",
@@ -341,7 +427,7 @@ export default {
 
   mounted() {
     window.addEventListener("resize", this.handleResize);
-
+    this.spinner();
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleResize);
@@ -351,7 +437,6 @@ export default {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
     onSubmit() {
-      
       this.$validator.validate().then((valid) => {
         if (!valid) {
         } else {
@@ -361,6 +446,13 @@ export default {
       });
     },
 
+    spinner() {
+      this.showSpinner = true;
+      setTimeout(() => {
+        this.showSpinner = false;
+        this.getLibros();
+      }, 1500);
+    },
     toggleNavbar() {
       this.isNavbarOpen = !this.isNavbarOpen;
     },
@@ -400,6 +492,136 @@ export default {
         }
       });
     },
+    passwordrecovery() {
+      this.$validator.validate().then(async (valid) => {
+        if (!valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Por favor completa todos los campos obligatorios.",
+          });
+        } else {
+          try {
+            const response = await instance.doGet(`/user/email/${this.emailSearch}`)
+            this.infoUser = response.data
+            let codigo = "";
+
+            for (let i = 0; i < 6; i++) {
+              codigo += Math.floor(Math.random() * 10);
+            }
+
+            const response2 = await instance.doPost("/user/actualizar/code", {
+              id: `${this.infoUser.id}`,
+              code: `${codigo}`
+            })
+            const response3 = await axios.post("http://localhost:8080/api-sirep/email/", {
+              transmitter: "20213tn082@utez.edu.mx",
+              receptor: `${response.data.email}`,
+              title: `Hola ${response.data.names} Este es tu Código de Verificación ${codigo}`,
+              text: `Motivo : Recuperacion de Constraseña`,
+              body: "Copia el código y pegalo donde se te pide"
+            })
+
+            Swal.fire({
+              icon: "success",
+              title: "Correcto",
+              text: "El código se ah enviado a su correo",
+            });
+            this.showLoginModal3 = false
+            this.showLoginModal4 = true
+
+
+          } catch (error) {
+            Swal.fire({
+              icon: "warning",
+              title: "Error",
+              text: "El  email ingresado no existe en la base",
+            });
+            console.error("Error al recuperar contrasena", error);
+          }
+        }
+      });
+    },
+
+    async changePassword() {
+      this.$validator.validate().then(async (valid) => {
+        if (!valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Por favor completa todos los campos obligatorios.",
+          });
+        } else {
+          try {
+
+            const response = await instance.doGet(`/user/email/${this.infoUser.email}`)
+            if (response.data.verificationCode == this.codeSend) {
+              this.showLoginModal4 = false,
+                this.showLoginModal5 = true
+            } else {
+              Swal.fire({
+                icon: "warning",
+                title: "Error",
+                text: "NO es Correcto el código",
+              });
+            }
+
+          } catch (error) {
+            Swal.fire({
+              icon: "warning",
+              title: "Error",
+              text: "Hubo un error al enviar el código de verficiación",
+            });
+            console.error("Error al recuperar contrasena", error);
+          }
+        }
+      });
+    },
+    async updatePassword() {
+      this.$validator.validate().then(async (valid) => {
+        if (!valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Por favor completa todos los campos obligatorios.",
+          });
+        } else {
+          try {
+            const response = await instance.doGet(`/user/email/${this.infoUser.emailSearch}`)
+            if (this.password1 == this.password2) {
+              const response2 = await instance.doPost("/user/actualizar/password", {
+                id: `${this.infoUser.id}`,
+                password: `${this.password1}`
+
+              })
+              Swal.fire({
+                icon: "success",
+                title: "Éxito",
+                text: "Contraseña modificada exitosamente.",
+              }).then(() => {
+                window.location.reload();
+              });
+              
+            } else {
+              Swal.fire({
+                icon: "infgo",
+                title: "Error",
+                text: "Las contraseñas deben ser iguales",
+              });
+            }
+
+          } catch (error) {
+            Swal.fire({
+              icon: "warning",
+              title: "Error",
+              text: "Hubo un error al enviar el código de verficiación",
+            });
+            console.error("Error al recuperar contrasena", error);
+          }
+        }
+      });
+    },
+
 
     async onSubmit() {
       this.showSpinner = true;
@@ -412,19 +634,24 @@ export default {
           text: "Por favor completa todos los campos obligatorios.",
         });
         this.showSpinner = false;
-        
         return;
       }
 
       try {
         const response = await instance.doGet(`/user/username/${this.user.username}`);
+        const response2 = await instance.doGet(`/user/email/${this.user.email}`);
         if (response.data != null) {
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "No puedes poner ese username porque ya existe.",
           });
-          this.showSpinner = false;
+        } else if (response2.data != null) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "No puedes poner ese email porque ya existe.",
+          });
         } else {
           const formData = new FormData();
           formData.append("profilePicture", this.user.profilePicture);
@@ -438,10 +665,13 @@ export default {
 
           await this.registerUser();
 
-          
-          this.showSpinner = false;
+          Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: "Usuario registrado exitosamente.",
+          });
+
           this.showModal = false;
-          
         }
       } catch (error) {
         console.error(error);
@@ -450,17 +680,11 @@ export default {
           title: "Error",
           text: "Hubo un error al procesar la solicitud.",
         });
-        this.showSpinner = false;
       } finally {
         this.showSpinner = false; // Ocultar el spinner después de completar la operación
       }
     },
-    spinner() {
-      this.showSpinner = true;
-      setTimeout(() => {
-        this.onSubmit();
-      }, 2000);
-    },
+
 
     async registerUser() {
       try {
@@ -490,12 +714,10 @@ export default {
             icon: "Error",
             title: "Hubo un error al registrar el usuario",
           });
-          this.showSpinner = false;
         }
       } catch (error) {
         console.error(error);
         alert("Hubo un error al registrar el usuario.");
-        this.showSpinner = false;
       }
     },
 

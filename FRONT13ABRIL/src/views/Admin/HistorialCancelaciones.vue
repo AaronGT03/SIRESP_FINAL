@@ -18,21 +18,14 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Reserva ID</th>
                   <th>Motivo</th>
-                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(cancellation, index) in cancellations" :key="index">
-                  <td>{{ cancellation.id }}</td>
                   <td>{{ cancellation.booking.id }}</td>
                   <td>{{ cancellation.reason }}</td>
-                  <td>
-                    <b-button variant="success" @click="approveCancellation(cancellation.id)">Aprobar</b-button>
-                    <b-button variant="danger" @click="rejectCancellation(cancellation.id)">Rechazar</b-button>
-                  </td>
                 </tr>
               </tbody>
             </table>

@@ -148,7 +148,64 @@ public class UserService {
         }
 
     }
+    @Transactional(rollbackFor = SQLException.class)
+    public Response<Boolean> updateVerificationCode(Long id, String code){
+        if(this.repository.existsUserById(id)){
+            this.repository.updateVefificationCodeById(id,code);
+            return new Response<>(
+                    null,
+                    false,
+                    200,
+                    "Status updated"
+            );
+        }else {
+            return new Response<>(
+                    null,
+                    false,
+                    200,
+                    "user not found"
+            );
+        }
 
+    }
+    @Transactional(rollbackFor = SQLException.class)
+    public Response<Boolean> updatePassword(Long id, String password){
+        if(this.repository.existsUserById(id)){
+            this.repository.updatePasswordById(id,password);
+            return new Response<>(
+                    null,
+                    false,
+                    200,
+                    "Password updated"
+            );
+        }else {
+            return new Response<>(
+                    null,
+                    false,
+                    200,
+                    "user not found"
+            );
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Response<Optional<User>> getByUsernameByEmail(String username){
+        if (this.repository.findUserByUsername(username)!=null){
+            return new Response<>(
+                    this.repository.findUserByEmail(username),
+                    false,
+                    200,
+                    "User found by Email"
+            );
+        }else {
+            return new Response<>(
+                    null,
+                    false,
+                    201,
+                    "User NOT found by Email"
+            );
+        }
+    }
 
 
 }

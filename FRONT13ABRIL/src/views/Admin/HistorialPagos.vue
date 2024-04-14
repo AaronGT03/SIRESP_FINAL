@@ -31,7 +31,7 @@
                       </b-col>
                       <b-col>
                         <button
-                          v-if="pago.paymentStatus !== 'Reembolso'"
+                          v-if="pago.paymentStatus !== 'Reembolsado'"
                           @click="
                             returnDeposit(
                               pago.id,
@@ -153,7 +153,7 @@ export default {
         const response = await instance.doPost("/pay/actualizar/", {
           id: payId,
           paymentDate: payDate,
-          paymentStatus: "Reembolso",
+          paymentStatus: "Reembolsado",
           amount: NewPay,
           booking: { id: payIdBooking },
         });

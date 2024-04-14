@@ -19,14 +19,17 @@ instance.interceptors.request.use(
             console.log("entro a la peticion get");
             
           
-        }
-         else if(url.includes("/user/username/") && method=="get" ){
+        }else if(url.includes("/user/username/") && method=="get" ){
 
+        }else if(url.includes("http://localhost:8080/api-sirep/email/") && method=="post" ){
 
-          
-        }
+        }else if(url.includes("/user/email/") && method=="get" ){
+
+        }else if(url.includes("/user/actualizar/code") && method=="post"){
+        }else if(url.includes("/user/actualizar/password") && method=="post" ){
+        
          
-        else if(url == "/category/" && method=="get"){
+        }else if(url == "/category/" && method=="get"){
 
         }else{
            console.log("Entro Aqui")

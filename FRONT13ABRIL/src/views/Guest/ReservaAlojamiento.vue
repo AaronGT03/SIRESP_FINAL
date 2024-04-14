@@ -7,34 +7,91 @@
             <div class="row mt-5 justify-content-center">
                 <div class="col-md-12">
                     <div class="justify-content-center">
-                        <b-carousel id="carousel-1" v-model="slide" :interval="4000" controls indicators
-                            background="#ababab"
-                            style="text-shadow: 1px 1px 2px #333; height: auto; max-width: 100%; overflow: hidden;"
-                            @sliding-start="onSlideStart" @sliding-end="onSlideEnd" class="mt-3">
+                        <b-carousel id="carousel-custom" v-model="slide" :interval="4000" controls indicators
+                            background="#ababab" @sliding-start="onSlideStart" @sliding-end="onSlideEnd" class="mt-3">
                             <b-carousel-slide v-for="(image, index) in JSON.parse(accommodation.images)" :key="index"
                                 class="carusel_slide">
                                 <template #img>
 
                                     <img :src="image" :alt="'Slide ' + (index + 1)" class="d-block img-fluid w-100"
-                                        style="height: 900px; object-fit: cover;" />
+                                        style="height: 800px; object-fit: cover;" />
                                 </template>
                             </b-carousel-slide>
                         </b-carousel>
                     </div>
                     <b-row class="mt-5">
                         <b-col cols="12" lg="6">
-                            <h3 class="text-center">{{ accommodation.name }}</h3>
+                            <h1 class="text-center">{{ accommodation.name }}</h1>
                             <hr>
-                            <p class="text-justify">
+                            <h5 class="text-justify text-center">
                                 {{ accommodation.description }}
-                            </p>
+                            </h5>
+                            <b-col cols="12" class="text-center">
+                                <hr>
+                                <h4 class="text-center mb-5">Servicios Adicionales</h4>
+                                <b-icon icon="house-fill" font-scale="4.5"></b-icon>
+                            </b-col>
+                            <b-col class="d-flex justify-content-center align-items-center mt-5" >
+                                <h5>
+                                    <ul v-for="(service, index) in JSON.parse(accommodation.additionalfeatures)">
+                                        <li>{{ service }}</li>
+                                    </ul>
+                                </h5>
+                            </b-col>
+
+                            <b-row class="mt-5 text-center">
+                                <b-col cols="12">
+                                    <hr>
+                                    <h4 class="text-center">Ubicación</h4>
+                                </b-col>
+                                <b-col cols="12">
+                                    <b-row>
+                                        <b-col cols="12" class="align-items-center mb-3 mt-5">
+                                            <b-icon icon="pin-map-fill" font-scale="4.5"></b-icon>
+                                        </b-col>
+                                    </b-row>
+                                    <h4 class="mt-4">{{ accommodation.location }}</h4>
+
+                                </b-col>
+                            </b-row>
+                            <b-row class="mt-5 text-center">
+                                <b-col cols="12">
+                                    <hr>
+                                    <div class="mt-5" style="overflow-y: scroll; height: 250px;">
+                                        <h2 class="mb-5">Reseñas de Huéspedes</h2>
+                                        <div v-for="(review, index) in reviews" :key="index" class="mb-4">
+                                            <div class="align-items-center">
+                                                <div>
+                                                    <h5>{{ review.description }}</h5>
+                                                    <div class="align-items-center">
+                                                        <div class="mr-2">Calificación:</div>
+                                                        <div>
+                                                            <b-icon icon="star-fill" font-scale="1"
+                                                                v-for="i in review.average" :key="i"
+                                                                class="text-warning"></b-icon>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-muted"></div>
+                                                </div>
+                                            </div>
+                                            <p class="mt-2"></p>
+                                        </div>
+                                    </div>
+                                </b-col>
+                            </b-row>
                         </b-col>
                         <b-col cols="12" lg="6">
                             <b-card class="card_shadow" border-variant="secondary" header-border-variant="secondary"
                                 align="center">
                                 <b-card-text></b-card-text>
-                                <h2>Seleccionar Fechas</h2>
                                 <b-row>
+                                    <b-col cols="12">
+                                        <h3 class="text-center">Reserva tu Alojamiento</h3>
+                                    </b-col>
+                                </b-row>
+
+                                <b-row>
+                                    <!-- FECHAS DISPONIBLES -->
 
                                     <b-col cols="12" class="mb-5">
                                         <vc-date-picker :value="null" color="blue" is-expanded
@@ -94,93 +151,19 @@
                             </b-card>
                         </b-col>
                     </b-row>
-                    <b-row class="mt-5 text-center">
-                        <b-col cols="12">
-                            <hr>
-                            <h3 class="text-center mb-5">Servicios</h3>
-                        </b-col>
-                        <b-col cols="6" sm="6" md="4">
 
-                            <ul v-for="(service, index) in JSON.parse(accommodation.additionalfeatures)">
-                                <li style="font-size:30px;">{{ service }}</li>
 
-                            </ul>
-                        </b-col>
-                    </b-row>
-                    <b-row class="mt-5">
-                        <b-col cols="12">
-                            <hr>
-                            <h3 class="text-center">Calificación del sitio</h3>
-                        </b-col>
-                        <b-col cols="12" align="center">
-                            <div>
-                                <b-icon icon="star-fill" font-scale="4"></b-icon>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <b-row class="mt-5">
-                        <b-col cols="12" align="center">
-                            <div>
-                                <span style="font-size: 20px; color: gray;">4.5 (254 opiniones)</span>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col cols="12">
-                            <hr>
-                            <div class="mt-5">
-                  <h2 class="mb-5">Reseñas de Huéspedes</h2>
-                  <div
-                    v-for="(review, index) in reviews"
-                    :key="index"
-                    class="mb-4"
-                  >
-                    <div class="d-flex align-items-center">
-                      <div>
-                        <h5>{{ review.description }}</h5>
-                        <div class="d-flex align-items-center">
-                          <div class="mr-2">Calificación:</div>
-                          <div>
-                            <b-icon
-                              icon="star-fill"
-                              font-scale="1"
-                              v-for="i in review.average"
-                              :key="i"
-                              class="text-warning"
-                            ></b-icon>
-                          </div>
-                        </div>
-                        <div class="text-muted"></div>
-                      </div>
-                    </div>
-                    <p class="mt-2"></p>
-                  </div>
-                </div>
-                        </b-col>
-                    </b-row>
-                    
-                    <b-row class="mt-5 text-center">
-                        <b-col cols="12">
-                            <hr>
-                            <h3 class="text-center">Ubicación</h3>
-                        </b-col>
-                        <b-col cols="12">
-                            <b-row>
-                                <b-col cols="12" class="align-items-center mb-3 mt-5">
-                                    <b-icon icon="pin-map-fill" font-scale="7.5"></b-icon>
-                                </b-col>
-                            </b-row>
-                            <h4 class="mt-4">{{ accommodation.location }}</h4>
 
-                        </b-col>
-                    </b-row>
-                   
+
+
+
+
                 </div>
             </div>
         </div>
 
 
-       
+
     </div>
 </template>
 
@@ -432,20 +415,20 @@ export default {
         },
 
         async getReviews() {
-        try {
-          const response = await instance.doGet(`/review/`);
-          const listReviews = response.data.data;
-          console.log("Reviews");
-          console.log(listReviews);
-          // Utiliza una función de filtro para seleccionar solo las reseñas relacionadas con la propiedad actual
-          this.reviews = listReviews.filter((item) => {
-            return item.accommodation.id == this.id; // Retorna true si el ID de la propiedad coincide
-          });
-          console.log("Reviews: ", this.reviews);
-        } catch (error) {
-          console.error("Error al obtener las reseñas:", error);
-        }
-      },
+            try {
+                const response = await instance.doGet(`/review/`);
+                const listReviews = response.data.data;
+                console.log("Reviews");
+                console.log(listReviews);
+                // Utiliza una función de filtro para seleccionar solo las reseñas relacionadas con la propiedad actual
+                this.reviews = listReviews.filter((item) => {
+                    return item.accommodation.id == this.id; // Retorna true si el ID de la propiedad coincide
+                });
+                console.log("Reviews: ", this.reviews);
+            } catch (error) {
+                console.error("Error al obtener las reseñas:", error);
+            }
+        },
 
         verificarDisponibilidadReserva() {
             this.error = '';
@@ -522,37 +505,115 @@ export default {
 }
 </script>
 
-<style>
-.top {
-    margin-top: 10%;
-    margin-left: 20px;
-    margin-right: 20px;
+<style scoped>
+/* General body styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
 }
 
-.line {
-    align-items: center;
-    text-align: center;
-    margin-top: 3%;
-    margin-left: 20px;
-    margin-right: 20px;
+/* Navbar and general layout improvements */
+.container-fluid {
+    padding: 20px;
 }
 
-.carusel {
-    height: 550px;
+/* Carousel styling */
+.carousel-custom img {
+    height: 500px;
+    /* Change based on your preference */
+    object-fit: cover;
 }
 
-.carusel_slide img {
-    height: 100%;
-    width: auto;
+.carousel-custom {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.anfitrion {
-    background-color: #f0efea;
-    box-shadow: 3px 3px 2px 2px rgba(32, 32, 32, 0.3);
-    margin-bottom: 5%;
-}
-
+/* Cards and content styling */
 .card_shadow {
-    box-shadow: 3px 3px 3px 2px rgba(32, 32, 32, 0.3);
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.info-card,
+.booking-card {
+    transition: all 0.3s ease-in-out;
+}
+
+.info-card:hover,
+.booking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Text and elements */
+h2,
+h3 {
+    color: #333;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Buttons and input styles */
+b-button {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+b-button:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+b-form-input {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+/* Hover effects for interactive elements */
+b-form-input:hover,
+b-form-input:focus {
+    border-color: #0056b3;
+}
+
+/* Service and reviews section */
+.additional-details {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Star icons and ratings */
+.text-warning {
+    color: #ffc107;
+    /* Gold color for stars */
+}
+
+/* Location and host information */
+.location-map,
+.host-info {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .carousel-custom img {
+        height: 300px;
+    }
 }
 </style>
