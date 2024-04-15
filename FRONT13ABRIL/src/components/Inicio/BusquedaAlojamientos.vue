@@ -28,9 +28,8 @@
       </div>
       <div class="col-md-9">
         <div class="d-flex justify-content-center align-items-center">
-                <b-spinner v-if="showSpinner" variant="info"
-                  style="width: 8rem; height: 8rem; margin-top: 15%"></b-spinner>
-              </div>
+          <b-spinner v-if="showSpinner" variant="info" style="width: 8rem; height: 8rem; margin-top: 15%"></b-spinner>
+        </div>
         <div class="row mt-4">
           <div class="col-md-4 col-sm-6 mb-4" v-for="(accommodation, index) in accommodations" :key="index"
             draggable="true" @dragstart="handleDragStart($event, accommodation)">
@@ -39,7 +38,7 @@
                 backgroundImage: `url(${JSON.parse(accommodation.images)[0]
                   })`,
               }"></div>
-              
+
               <div class="card-body">
                 <h5 class="card-title airbnb-card-title">
                   {{ accommodation.name }}
@@ -60,7 +59,6 @@
             </div>
           </div>
           <div class="col-md-4 col-sm-6 mb-4" v-for="index in ghostCards" :key="'ghost-' + index">
-            <!-- Contenido de la card fantasma -->
             <div class="card h-100 airbnb-card ghost-card"></div>
           </div>
         </div>
@@ -108,7 +106,7 @@ export default {
     async getAccommodations() {
       try {
         const response = await instance.doGet("/accommodation/");
-        const listAcommodations =response.data.data;
+        const listAcommodations = response.data.data;
         this.accommodations = listAcommodations.filter(accommodation => accommodation.availability.includes("Habilitado"));
       } catch (error) {
         console.error("Error al obtener los datos de alojamiento:", error);
@@ -118,15 +116,15 @@ export default {
       try {
         if (evento === 0) {
           const response = await instance.doGet("/accommodation/");
-          const listAcommodations =response.data.data;
-        this.accommodations = listAcommodations.filter(accommodation => accommodation.availability.includes("Habilitado"));
+          const listAcommodations = response.data.data;
+          this.accommodations = listAcommodations.filter(accommodation => accommodation.availability.includes("Habilitado"));
         } else {
           const response = await instance.doGet(
             `/accommodation/category/${evento}`
           );
           console.log(response.data.data);
-          const listAcommodations =response.data.data;
-        this.accommodations = listAcommodations.filter(accommodation => accommodation.availability.includes("Habilitado"));
+          const listAcommodations = response.data.data;
+          this.accommodations = listAcommodations.filter(accommodation => accommodation.availability.includes("Habilitado"));
         }
       } catch (error) {
         console.error("Error al obtener los datos de alojamiento:", error);
@@ -156,15 +154,15 @@ export default {
         this.searchGuests > 0
       ) {
         this.accommodations = filterList.filter((item) => {
-  const availabilityMatch = item.availability.includes("Habilitado");
-  const locationMatch = item.location.toLowerCase().includes(this.searchLocation.toLowerCase());
-  const priceMatch = this.searchPrice > 0 ? item.price <= this.searchPrice : true;
-  const guestsMatch = this.searchGuests > 0 ? item.numGuest == this.searchGuests : true;
+          const availabilityMatch = item.availability.includes("Habilitado");
+          const locationMatch = item.location.toLowerCase().includes(this.searchLocation.toLowerCase());
+          const priceMatch = this.searchPrice > 0 ? item.price <= this.searchPrice : true;
+          const guestsMatch = this.searchGuests > 0 ? item.numGuest == this.searchGuests : true;
 
-  return availabilityMatch && locationMatch && priceMatch && guestsMatch;
-});
+          return availabilityMatch && locationMatch && priceMatch && guestsMatch;
+        });
 
-     
+
       } else {
         this.accommodations = filterList;
       }
@@ -270,8 +268,6 @@ export default {
 
 .ghost-card {
   border: none;
-  /* Eliminar el borde para que parezcan "fantasmas" */
   background-color: transparent;
-  /* Hacer el fondo transparente */
 }
 </style>

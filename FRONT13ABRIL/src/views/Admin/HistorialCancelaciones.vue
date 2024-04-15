@@ -2,7 +2,6 @@
   <div>
     <b-row>
       <b-col cols="12">
-        <CategoriesNavbar />
         <NavbarUser />
       </b-col>
     </b-row>
@@ -14,21 +13,49 @@
             <h2 class="text-center">Historial de Cancelaciones</h2>
           </div>
 
-          <div class="table-responsive mt-4">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Reserva ID</th>
-                  <th>Motivo</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(cancellation, index) in cancellations" :key="index">
-                  <td>{{ cancellation.booking.id }}</td>
-                  <td>{{ cancellation.reason }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="row justify-content-center mt-4">
+            <div class="col-xl-12">
+              <b-card class="card_shadow mt-3" v-for="(cancellation, index) in cancellations" :key="index">
+                <div class="row">
+                  <div class="col-md-2 col-sm-12 text-center">
+                    <b-row>
+                      <b-col cols="12">
+                        <h4>Id Cancelación</h4>
+                        <p class="text-center">{{cancellation.id }}</p>
+                      </b-col>
+                    </b-row>
+                  </div>
+                  <div class="col-md-7 text-center">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <h4>Usuario</h4>
+                        <p>{{ cancellation.booking.user.names }} {{ cancellation.booking.user.lastName }}</p>
+                      </div>
+                      <div class="col-md-3">
+                        <h4>Nombre Alojamiento</h4>
+                        <p>{{ cancellation.booking.accommodation.name }}</p>
+                      </div>
+                      <div class="col-md-3">
+                        <h4>Fecha Llegada</h4>
+                        <p>{{ formatDate(cancellation.booking.arrivalDate) }}</p>
+                      </div>
+                      <div class="col-md-3">
+                        <h4>Fecha Salida</h4>
+                        <p>{{ formatDate(cancellation.booking.departureDate) }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 text-center">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h4>Motivo</h4>
+                        <p>{{ cancellation.reason }}</p> <!-- Aquí llamamos a la función formatDate -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </b-card>
+            </div>
           </div>
 
         </div>
@@ -54,6 +81,13 @@ export default {
     };
   },
   methods: {
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      const year = date.getFullYear().toString().slice(-2);
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const day = ('0' + date.getDate()).slice(-2);
+      return `${year}-${month}-${day}`;
+    },
     async getCancellations() {
       try {
         const response = await instance.doGet('/cancellation/');

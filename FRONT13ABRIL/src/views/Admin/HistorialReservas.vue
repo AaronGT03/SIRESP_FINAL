@@ -2,7 +2,7 @@
     <div>
         <b-row>
             <b-col cols="12">
-                <CategoriesNavbar />
+
                 <NavbarUser />
             </b-col>
         </b-row>
@@ -46,7 +46,7 @@
                                     <div class="col-md-2 text-center">
                                         <div class="row">
                                             <div class="col-md-4 text-center mt-2">
-                                                <b-button @click=cancelModal(reserva.id) variant="danger">Cancelar Reserva</b-button>
+                                                <b-button @click=cancelModal(reserva.id) variant="danger" v-if="reserva.stateBooking !== 'cancelado'">Cancelar Reserva</b-button>
                                             </div>
                                         </div>
                                     </div>
@@ -161,11 +161,7 @@ export default {
         const response = await instance.doPost(
           "/cancellation/",{ 
             reason: this.reason,
-            booking:{id: this.idSelected}
-          
-           
-           
-           
+            booking:{id: this.idSelected}                  
           });
 
     await instance.doPost("/booking/actualizar/state/", {

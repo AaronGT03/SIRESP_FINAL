@@ -3,21 +3,14 @@
     <b-container>
       <b-row class="justify-content-center">
         <b-col cols="12" lg="8">
-          <b-card
-            title="Creación de Alojamiento"
-            class="shadow p-3 mb-5 bg-white rounded"
-          >
+          <b-card title="Creación de Alojamiento" class="shadow p-3 mb-5 bg-white rounded">
             <b-card-body>
               <b-form @submit.prevent="onSubmit">
                 <b-row>
                   <b-col cols="6">
                     <b-form-group label="Nombre">
-                      <b-form-input
-                        v-validate="'required|min:3'"
-                        name="name"
-                        v-model="accommodation.name"
-                        type="text"
-                      />
+                      <b-form-input v-validate="'required|min:3'" name="name" v-model="accommodation.name"
+                        type="text" />
                       <span class="text-danger">{{
                         errors.first("name")
                       }}</span>
@@ -25,11 +18,8 @@
                   </b-col>
                   <b-col cols="6">
                     <b-form-group label="Descripción">
-                      <b-form-textarea
-                        v-validate="'required|min:10'"
-                        name="description"
-                        v-model="accommodation.Description"
-                      />
+                      <b-form-textarea v-validate="'required|min:10'" name="description"
+                        v-model="accommodation.Description" />
                       <span class="text-danger">{{
                         errors.first("description")
                       }}</span>
@@ -40,12 +30,8 @@
                 <b-row>
                   <b-col cols="6">
                     <b-form-group label="Ubicación">
-                      <b-form-input
-                        v-validate="'required'"
-                        name="location"
-                        v-model="accommodation.location"
-                        type="text"
-                      />
+                      <b-form-input v-validate="'required'" name="location" v-model="accommodation.location"
+                        type="text" />
                       <span class="text-danger">{{
                         errors.first("location")
                       }}</span>
@@ -53,12 +39,8 @@
                   </b-col>
                   <b-col cols="6">
                     <b-form-group label="Precio">
-                      <b-form-input
-                        v-validate="'required|numeric|min_value:1'"
-                        name="price"
-                        v-model="accommodation.price"
-                        type="number"
-                      />
+                      <b-form-input v-validate="'required|numeric|min_value:1'" name="price"
+                        v-model="accommodation.price" type="number" />
                       <span class="text-danger">{{
                         errors.first("price")
                       }}</span>
@@ -69,12 +51,8 @@
                 <b-row>
                   <b-col cols="6">
                     <b-form-group label="Recamaras">
-                      <b-form-input
-                        v-validate="'required|numeric|min_value:1'"
-                        name="NumRooms"
-                        v-model="accommodation.NumRooms"
-                        type="number"
-                      />
+                      <b-form-input v-validate="'required|numeric|min_value:1'" name="NumRooms"
+                        v-model="accommodation.NumRooms" type="number" />
                       <span class="text-danger">{{
                         errors.first("NumGuest")
                       }}</span>
@@ -82,12 +60,8 @@
                   </b-col>
                   <b-col cols="6">
                     <b-form-group label="Huespedes">
-                      <b-form-input
-                        v-validate="'required|numeric|min_value:1'"
-                        name="NumGuest"
-                        v-model="accommodation.NumGuest"
-                        type="number"
-                      />
+                      <b-form-input v-validate="'required|numeric|min_value:1'" name="NumGuest"
+                        v-model="accommodation.NumGuest" type="number" />
                       <span class="text-danger">{{
                         errors.first("NumGuest")
                       }}</span>
@@ -98,12 +72,8 @@
                 <b-row>
                   <b-col cols="6">
                     <b-form-group label="Camas">
-                      <b-form-input
-                        v-validate="'required|numeric|min_value:1'"
-                        name="NumBeds"
-                        v-model="accommodation.NumBeds"
-                        type="number"
-                      />
+                      <b-form-input v-validate="'required|numeric|min_value:1'" name="NumBeds"
+                        v-model="accommodation.NumBeds" type="number" />
                       <span class="text-danger">{{
                         errors.first("NumBeds")
                       }}</span>
@@ -112,12 +82,8 @@
 
                   <b-col cols="6">
                     <b-form-group label="Baños">
-                      <b-form-input
-                        v-validate="'required|numeric|min_value:1'"
-                        name="NumBathrooms"
-                        v-model="accommodation.NumBathrooms"
-                        type="number"
-                      />
+                      <b-form-input v-validate="'required|numeric|min_value:1'" name="NumBathrooms"
+                        v-model="accommodation.NumBathrooms" type="number" />
                       <span class="text-danger">{{
                         errors.first("NumBathrooms")
                       }}</span>
@@ -125,11 +91,8 @@
                   </b-col>
                   <b-col cols="12">
                     <b-form-group label="Categoria">
-                      <b-form-select
-                        v-validate="'required'"
-                        v-model="accommodation.category"
-                        :options="categoryOptions"
-                      />
+                      <b-form-select v-validate="'required'" v-model="accommodation.category"
+                        :options="categoryOptions" />
                       <span class="text-danger">{{
                         errors.first("category")
                       }}</span>
@@ -143,50 +106,28 @@
                       <b-form-checkbox-group v-model="accommodation.extras">
                         <b-form-checkbox value="wifi">Wifi</b-form-checkbox>
                         <b-form-checkbox value="tv">TV</b-form-checkbox>
-                        <b-form-checkbox value="kitchen"
-                          >Cocina</b-form-checkbox
-                        >
-                        <b-form-checkbox value="Alberca"
-                          >Alberca</b-form-checkbox
-                        >
-                        <b-form-checkbox value="Estacionamiento"
-                          >Estacionamiento</b-form-checkbox
-                        >
+                        <b-form-checkbox value="kitchen">Cocina</b-form-checkbox>
+                        <b-form-checkbox value="Alberca">Alberca</b-form-checkbox>
+                        <b-form-checkbox value="Estacionamiento">Estacionamiento</b-form-checkbox>
                       </b-form-checkbox-group>
                     </b-form-group>
                   </b-col>
                 </b-row>
 
                 <b-form-group label="imagenes">
-                  <b-form-file
-                    name="images"
-                    v-model="accommodation.images"
-                    accept="image/*"
-                    multiple
-                    @change="putImages"
-                  >
+                  <b-form-file name="images" v-model="accommodation.images" accept="image/*" multiple
+                    @change="putImages">
                   </b-form-file>
                   <div class="image-grid">
-                    <div
-                      v-for="(imageData, index) in listImagesView"
-                      :key="index"
-                    >
-                      <img
-                        style="width: 100px; height: 100px"
-                        :src="imageData"
-                        alt="Selected Image"
-                      />
+                    <div v-for="(imageData, index) in listImagesView" :key="index">
+                      <img style="width: 100px; height: 100px" :src="imageData" alt="Selected Image" />
                     </div>
                   </div>
                 </b-form-group>
 
                 <b-row class="justify-content-center">
                   <b-col cols="12" lg="8">
-                    <b-button
-                      type="submit"
-                      variant="primary"
-                      class="mt-3 d-block mx-auto"
-                    >
+                    <b-button type="submit" variant="primary" class="mt-3 d-block mx-auto">
                       Enviar
                     </b-button>
                   </b-col>
@@ -293,13 +234,20 @@ export default {
       const files = event.target.files;
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        if (file) {
+        if (file != null && files[i].size < 2000000) {
           this.listImages.push(file);
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = () => {
             this.listImagesView.push(reader.result);
           };
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "La imagen erronea",
+            text: "La imagen no debe de ser mayor a 2mb",
+          });
+          
         }
       }
     },
@@ -307,9 +255,9 @@ export default {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            resolve(true); // Todos los campos son válidos
+            resolve(true);
           } else {
-            reject(false); // Al menos un campo es inválido
+            reject(false);
           }
         });
       });
@@ -383,10 +331,12 @@ export default {
     margin-bottom: 15px;
   }
 }
+
 .image-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: minmax(20px, auto);
-  gap: 2px; /* Espacio entre las imágenes */
+  gap: 2px;
+  /* Espacio entre las imágenes */
 }
 </style>

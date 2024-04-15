@@ -100,10 +100,13 @@
             </b-form-group>
           </b-col>
         </b-row>
-
-        <!-- Botón Enviar -->
         <div class="text-center">
-          <b-button style="margin-top: 5%" type="submit" variant="primary">Enviar</b-button>
+          <b-button style="margin-top: 5%" type="submit" variant="primary">
+            <span v-if="showSpinner">
+              <b-spinner small></b-spinner> Enviando...
+            </span>
+            <span v-else>Enviar</span>
+          </b-button>
         </div>
       </b-form>
     </b-modal>
@@ -167,7 +170,7 @@
                   placeholder="Ingrese Nuevamente su Contraseña" />
                 <span class="text-danger">{{ errors.first("paasoword2") }}</span>
 
-                <b-button type="submit" variant="primary">Actualizar Conatrseñas</b-button>
+                <b-button type="submit" variant="primary">Actualizar Contraseñas</b-button>
               </div>
 
             </b-form-group>
@@ -203,21 +206,24 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <div class="text-center">
-          <b-link @click="
-            showLoginModal3 = true;
-          showModal = false;
-          showLoginModal = false
-            " variant="link">
-            Olvide Micontraseña</b-link>
-        </div>
+        
 
         <div class="text-center">
           <b-button type="submit" variant="primary">Iniciar Sesión</b-button>
         </div>
       </b-form>
       <br />
-      <!--No estas registrado?-->
+      <div class="text-center">
+          <div class="text-center">
+            ¿Has olvidado tu contraseña?
+            <b-link @click="
+              showLoginModal3 = true;
+            showModal = false;
+            showLoginModal = false
+              " variant="link">
+              Olvidé mi contraseña</b-link>
+          </div>
+        </div>
       <div class="text-center">
         ¿No estás registrado?
         <b-link @click="
@@ -227,10 +233,6 @@
           - Registrate aquí</b-link>
       </div>
     </b-modal>
-
-    <div class="d-flex justify-content-center align-items-center">
-      <b-spinner v-if="showSpinner" variant="info" style="width: 8rem; height: 8rem; margin-top: 15%"></b-spinner>
-    </div>
 
     <nav class="navbar">
       <div class="container">
@@ -436,16 +438,6 @@ export default {
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
-    onSubmit() {
-      this.$validator.validate().then((valid) => {
-        if (!valid) {
-        } else {
-          console.log(this.$data);
-          this.showModal = false;
-        }
-      });
-    },
-
     spinner() {
       this.showSpinner = true;
       setTimeout(() => {
@@ -542,7 +534,6 @@ export default {
         }
       });
     },
-
     async changePassword() {
       this.$validator.validate().then(async (valid) => {
         if (!valid) {
@@ -601,7 +592,7 @@ export default {
               }).then(() => {
                 window.location.reload();
               });
-              
+
             } else {
               Swal.fire({
                 icon: "infgo",

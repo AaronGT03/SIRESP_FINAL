@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div class="desUser">
+    <h4 class="text-center">Administrar Usuarios</h4>
     <div class="container-fluid" v-for="(user, index) in userData">
       <div class="row justify-content-center mt-4">
-        <div class="col-xl-12">
+        <div class="col-xl-12" >
           <b-card class="card_shadow">
             <div class="row">
               <div class="col-md-3 text-center">
@@ -118,5 +119,19 @@ export default {
 
 .card_shadow {
   box-shadow: 3px 3px 3px 2px rgba(32, 32, 32, 0.3);
+}
+@media screen and (max-width: 768px){
+  .desUser{
+    margin-top: 40%;
+    margin-bottom: 40%;
+  }
+  .img_historial {
+    height: 50px;
+    width: 65px;
+  }
+  .card_shadow {
+    box-shadow: 3px 3px 3px 2px rgba(32, 32, 32, 0.3);
+  }
+  
 }
 </style>

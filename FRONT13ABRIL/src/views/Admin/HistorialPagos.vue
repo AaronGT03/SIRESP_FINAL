@@ -2,7 +2,6 @@
   <div>
     <b-row>
       <b-col cols="12">
-        <CategoriesNavbar />
         <NavbarUser />
       </b-col>
     </b-row>

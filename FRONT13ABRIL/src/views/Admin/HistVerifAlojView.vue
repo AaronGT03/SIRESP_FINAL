@@ -1,7 +1,6 @@
 <template>
   <div>
     <b-container fluid>
-    <CategoriesNavbar />
     <NavbarUser />
       <HistorialVerifAlojamientos />
     </b-container>

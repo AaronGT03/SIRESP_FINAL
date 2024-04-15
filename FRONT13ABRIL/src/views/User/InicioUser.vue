@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <transition name="fade">
-      <CategoriesNavbar v-if="isVisible" @ejecutar-funcion="activarEvento"/>
+      <CategoriesNavbar  v-if="isVisible" @ejecutar-funcion="activarEvento"/>
     </transition>
     <NavbarUser />
     <div class="main-content">
@@ -50,7 +50,7 @@ export default {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+.fade-enter, .fade-leave-to{
   opacity: 0;
 }
 
@@ -62,5 +62,10 @@ export default {
 .main-content {
   margin-top: calc(3.5rem + 50px);
   padding: 1rem;
+}
+@media screen and (max-width: 768px){
+  .main-content {
+    padding: 1rem;
+  }
 }
 </style>

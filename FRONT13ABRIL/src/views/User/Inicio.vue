@@ -32,16 +32,13 @@ export default {
       this.$refs.busqueda.filterCategory(evento);
     },
     handleScroll() {
-      // Actualiza la visibilidad basado en la posición del scroll
       this.isVisible = window.scrollY < 50;
     }
   },
   mounted() {
-    // Agregamos el listener cuando el componente es montado
     window.addEventListener('scroll', this.handleScroll);
   },
   beforeDestroy() {
-    // Limpiamos el listener cuando el componente va a ser destruido
     window.removeEventListener('scroll', this.handleScroll);
   }
 
@@ -53,7 +50,7 @@ export default {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 
@@ -65,5 +62,11 @@ export default {
 .main-content {
   margin-top: calc(3.5rem + 50px);
   padding: 1rem;
+}
+@media screen and (max-width: 768px){
+  .main-content {
+
+    padding: 1rem;
+  }
 }
 </style>

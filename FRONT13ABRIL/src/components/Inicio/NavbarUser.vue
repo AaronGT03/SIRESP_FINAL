@@ -188,7 +188,6 @@
               >
                 <b-icon icon="plus-circle" /> Insertar Alojamiento</a
               >
-              
             </div>
           </div>
 
@@ -211,7 +210,7 @@
                 <b-icon icon="people" /> Administrar Usuarios</a
               >
               <a class="dropdown-item" href="/historialVerifAnf">
-                <b-icon icon="clock-history" /> Historial de Anfitriones</a
+                <b-icon icon="clock-history" /> Verificación de Anfitriones</a
               >
               <a class="dropdown-item" href="/historialVerifAloj">
                 <b-icon icon="clock-history" /> Historial de Alojamientos</a
@@ -283,6 +282,7 @@
 .navbar-menu {
   display: flex;
   align-items: center;
+
 }
 
 .navbar-item {

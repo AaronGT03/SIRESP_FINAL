@@ -17,11 +17,11 @@
                   :class="{ 'is-invalid': errors.has('curp') }" name="curp">
                 <span v-if="errors.has('curp')" class="invalid-feedback">{{ errors.first('curp') }}</span>
               </div>
-             
+
 
               <div class="form-group">
                 <label for="identificationImage">INE:</label>
-                <b-form-file  name="identificationImage" v-model="form.identificationImage">
+                <b-form-file name="identificationImage" v-model="form.identificationImage">
                 </b-form-file>
               </div>
 
@@ -99,12 +99,18 @@ export default {
           id: `${this.form.user}`,
           status: "pendiente"
         });
-
+        const response4 = await axios.get("http://localhost:8080/api-sirep/sendSMS/",
+          {
+            phoneNumber: "527772599268",
+            phoneNumberId: "350805548106713",
+            message: "¡Hola un nuevo un usuario quiere ser Anfitrión, revisa tu cuenta para verificar...!"
+          });
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
           text: 'Host registrado exitosamente.',
         });
+
         window.location.href = "/userhome";
       } catch (error) {
         console.log(error);
@@ -120,9 +126,9 @@ export default {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            resolve(true); // Todos los campos son válidos
+            resolve(true); 
           } else {
-            reject(false); // Al menos un campo es inválido
+            reject(false); 
           }
         });
       });

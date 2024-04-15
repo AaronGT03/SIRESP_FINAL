@@ -43,11 +43,9 @@
     },
     methods: {
       aceptarUsuario(index) {
-        // Lógica para aceptar el usuario en el índice dado
         console.log('Usuario aceptado:', this.usuarios[index]);
       },
       rechazarUsuario(index) {
-        // Lógica para rechazar el usuario en el índice dado
         console.log('Usuario rechazado:', this.usuarios[index]);
       }
     }

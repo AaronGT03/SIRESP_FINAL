@@ -211,6 +211,8 @@ import axios from "axios";
 import instance from "../../config/http-client.gateway";
 const token = sessionStorage.getItem("token");
 import Swal from "sweetalert2";
+import {decrypt2 } from "../../config/aes";
+
 
 export default {
   components: {
@@ -339,14 +341,21 @@ export default {
         const files = event.target.files;
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
-          if (file) {
-            this.listImages.push(file);
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-              this.listImagesView.push(reader.result);
-            };
-          }
+          if (file != null && files[i].size < 2000000) {
+          this.listImages.push(file);
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            this.listImagesView.push(reader.result);
+          };
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "La imagen erronea",
+            text: "La imagen no debe de ser mayor a 2mb",
+          });
+          
+        }
         }
       } else {
         Swal.fire({
@@ -403,7 +412,8 @@ export default {
   },
   mounted() {
     const id = this.$route.query.id;
-    this.id = id;
+    const newId = decrypt2(id);
+    this.id = newId;
     this.getUser();
     this.getCategory();
     this.getAccommodation();

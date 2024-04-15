@@ -1,5 +1,5 @@
 <template>
-  
+
   <b-container fluid class="airbnb-container">
     <h3>Mis alojamientos </h3>
     <div class="row">
@@ -22,7 +22,7 @@
 
 
       </div>
-      
+
       <div class="col-md-9">
         <div class="row">
           <div class="col-md-12" style="text-align: center;">
@@ -31,11 +31,11 @@
         </div>
         <div class="row mt-4">
 
-          
+
           <div class="col-md-4 col-sm-6 mb-4" v-for="(accommodation, index) in accommodations" :key="index">
-            
+
             <div class="card h-100 airbnb-card">
-              
+
               <div class="card-img-top airbnb-card-img-top"
                 :style="{ backgroundImage: `url(${JSON.parse(accommodation.images)[0]})` }">
               </div>
@@ -58,18 +58,19 @@
         </div>
 
       </div>
-      
+
 
     </div>
-    
-  </b-container>
-  
 
- 
+  </b-container>
+
+
+
 </template>
 
 <script>
 import instance from "../../config/http-client.gateway";
+import {encrypt } from "../../config/aes";
 export default {
   data() {
     return {
@@ -81,17 +82,19 @@ export default {
       accommodations: [],
       hosts: [],
       user: [],
-      listAcommodations:[]
+      listAcommodations: []
     }
   },
   mounted() {
     this.spinner();
-    
+
 
   },
   methods: {
     redirectToModificarAlojamiento(id) {
-      this.$router.push({ path: '/modificarAlojamiento', query: { id: id } });
+      const dataString = encrypt(id);
+      this.$router.push({ path: '/modificarAlojamiento', query: { id: dataString } });
+
     },
 
     async getAccommodations(host) {
@@ -113,8 +116,8 @@ export default {
         this.hosts = response.data.data;
         console.log("Host: ", this.hosts);
         this.getAccommodations(this.hosts);
-        
-        
+
+
       } catch (error) {
         console.error('Error al obtener los datos de los anfitriones:', error);
       }
@@ -132,10 +135,10 @@ export default {
 
     },
     async buscar() {
-    if (this.searchLocation || this.searchPrice || this.searchGuests) {
+      if (this.searchLocation || this.searchPrice || this.searchGuests) {
         console.log("entro ala busqueda")
 
-          this.accommodations = this.listAcommodations.filter(item => {
+        this.accommodations = this.listAcommodations.filter(item => {
           const locationMatch = item.location.toLowerCase().includes(this.searchLocation.toLowerCase());
           const departurePrice = this.searchPrice ? item.price <= this.searchPrice : true;
           const guestsMatch = this.searchGuests ? item.numGuest == this.searchGuests : true;
@@ -153,9 +156,9 @@ export default {
         this.showSpinner = false;
         this.getUsers();
       }, 1500);
-      
+
     },
-    
+
   }
 
 

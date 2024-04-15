@@ -69,8 +69,7 @@
   box-shadow: 0 4px 8px rgba(177, 16, 16, 0.1);
   padding: 20px;
   text-align: center;
-  margin-top:200px ;
-  
+  margin-top: 200px;
 }
 
 .profile-picture img {
@@ -113,6 +112,7 @@
     margin: 0 auto;
     max-width: 90%;
     padding-bottom: 15%;
+    margin-bottom: 10%;
   }
 
   .profile-picture img {
@@ -129,7 +129,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    
   }
+  .profile-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(177, 16, 16, 0.1);
+  padding: 20px;
+  text-align: center;
+  margin-top: 0;
+  
+  
+}
 }
 </style>
 

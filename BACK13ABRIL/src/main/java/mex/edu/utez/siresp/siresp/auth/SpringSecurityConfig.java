@@ -44,6 +44,7 @@ public class SpringSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/api-sirep/sendSMS/").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api-sirep/email/").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api-sirep/user/").hasAnyRole("USER","ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api-sirep/user/{id}").hasAnyRole("USER","ADMIN")
